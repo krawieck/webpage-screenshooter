@@ -13,7 +13,7 @@ const width = Number(argv.w) || 1920
 const height = Number(argv.h) || 1080
 const headless = !argv.headful
 const scrollFirst = argv['scroll-first'] || false
-let o = argv.o || `webpage_screenshot_${new Date().toLocaleString('pl')}.png`
+let o = argv.o || `webpage_screenshot_${getFormatedDate()}.png`
 
 const output = o.endsWith('.png') || o.endsWith('.jpg') || o.endsWith('.jpeg') ? o : `${o}.png`
 
