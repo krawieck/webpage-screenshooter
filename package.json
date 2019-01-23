@@ -9,6 +9,7 @@
   "author": "krawieck",
   "license": "ISC",
   "dependencies": {
+    "@types/puppeteer": "^1.11.2",
     "puppeteer": "^1.11.0",
     "typescript": "^3.2.4"
   }
