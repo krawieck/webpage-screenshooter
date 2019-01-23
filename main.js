@@ -10,6 +10,7 @@ if (!argv._[0]) {
 const url = argv._[0]
 const width = Number(argv.w) || 1920
 const height = Number(argv.h) || 1080
+const headless = !argv.headful
 const scrollFirst = argv['scrol-first'] || false
 let o = argv.o || `webpage_screenshot_${new Date().toLocaleString('pl')}.png`
 
@@ -17,7 +18,7 @@ const output = o.endsWith('.png') || o.endsWith('.jpg') || o.endsWith('.jpeg') ?
 
 const args = argv['linux-workaround'] ? ['--no-sandbox', '--disable-setuid-sandbox'] : []
 ;(async () => {
-	const browser = await puppeteer.launch({ args, headless: false }).catch(e => {
+	const browser = await puppeteer.launch({ args, headless }).catch(e => {
 		console.log(
 			e +
 				'======================================\n' +
@@ -43,7 +44,7 @@ const args = argv['linux-workaround'] ? ['--no-sandbox', '--disable-setuid-sandb
 		process.exit(1)
 	})
   await page.setViewport({ width, height })
-  
+
 	if (scrollFirst) {
 		await page.evaluate(
 			async () =>
