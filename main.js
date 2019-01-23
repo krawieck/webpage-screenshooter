@@ -10,6 +10,7 @@ if (!argv._[0]) {
 const url = argv._[0]
 const width = Number(argv.w) || 1920
 const height = Number(argv.h) || 1080
+const scrollFirst = argv['scrol-first'] || false
 let o = argv.o || `webpage_screenshot_${new Date().toLocaleString('pl')}.png`
 
 const output = o.endsWith('.png') || o.endsWith('.jpg') || o.endsWith('.jpeg') ? o : `${o}.png`
@@ -41,7 +42,31 @@ const args = argv['linux-workaround'] ? ['--no-sandbox', '--disable-setuid-sandb
 		)
 		process.exit(1)
 	})
-	await page.setViewport({ width, height })
+  await page.setViewport({ width, height })
+  
+	if (scrollFirst) {
+		await page.evaluate(
+			async () =>
+				new Promise((resolve, reject) => {
+					try {
+						const maxScroll = Number.MAX_SAFE_INTEGER
+						let lastScroll = 0
+						const interval = setInterval(() => {
+							window.scrollBy(0, 100)
+							const scrollTop = document.documentElement.scrollTop
+							if (scrollTop === maxScroll || scrollTop === lastScroll) {
+								clearInterval(interval)
+								resolve()
+							} else {
+								lastScroll = scrollTop
+							}
+						}, 100)
+					} catch (err) {
+						reject(err)
+					}
+				})
+		)
+	}
 
 	await page.screenshot({ path: output, fullPage: true }).catch(e => {
 		console.log("couldn't take screenshot, here's puppeteer's error msg:\n", e)
