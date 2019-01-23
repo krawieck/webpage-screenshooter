@@ -1,0 +1,15 @@
+{
+  "name": "webpage-screenshooter",
+  "version": "1.0.0",
+  "description": "",
+  "main": "main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "krawieck",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^1.11.0",
+    "typescript": "^3.2.4"
+  }
+}
