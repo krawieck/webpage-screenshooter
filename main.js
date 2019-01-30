@@ -14,7 +14,7 @@ const argv = require('yargs')
       "sets height of browser's viewport. useful for short websites, e.g. https://google.com",
     type: 'number'
   })
-  .option('ext', { default: 'png', describe: 'extension of the image', choices: ['jpg', 'png'] })
+  .option('ext', { default: 'png', describe: 'extension of the image', choices: ['jpeg', 'jpg', 'png'] })
   .option('scroll-first', {
     default: false,
     describe:
@@ -33,11 +33,12 @@ const argv = require('yargs')
     describe: 'Print various debugging information',
     type: 'boolean'
   })
-  .option('no-sandbox', {
+  .option('disable-sandbox', {
     deafult: false,
     describe: 'turn sandboxing in chrome off, may be needed on some linux distros',
     type: 'boolean'
-  }).argv
+  })
+  .argv
 
 
 if (argv.verbose) console.log(argv)
@@ -49,15 +50,15 @@ if (!argv._[0]) {
 }
 
 const url = argv._[0]
+const ext = argv.ext
 const width = Number(argv.w) || 1920
 const height = Number(argv.h) || 1080
 const headless = !argv.headful
-const scrollFirst = argv['scroll-first'] || false
-let o = argv.o || `webpage_screenshot_${getFormatedDate()}.png`
+const scrollFirst = argv.scrollFirst
 
-const output = o.endsWith('.png') || o.endsWith('.jpg') || o.endsWith('.jpeg') ? o : `${o}.png`
+const output = argv.output.endsWith(ext) ? argv.output : `${argv.output}.${ext}`
 
-const args = argv['linux-workaround'] ? ['--no-sandbox', '--disable-setuid-sandbox'] : []
+const args = argv.disableSandbox ? ['--no-sandbox'] : []
 
 // Do the screenshooting
 ;(async () => {
