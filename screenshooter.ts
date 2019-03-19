@@ -14,7 +14,11 @@ const argv = require('yargs')
       "sets height of browser's viewport. useful for short websites, e.g. https://google.com",
     type: 'number'
   })
-  .option('ext', { default: 'png', describe: 'extension of the image', choices: ['jpeg', 'jpg', 'png'] })
+  .option('ext', {
+    default: 'png',
+    describe: 'extension of the image',
+    choices: ['jpeg', 'jpg', 'png']
+  })
   .option('scroll-first', {
     default: false,
     describe:
@@ -37,9 +41,7 @@ const argv = require('yargs')
     deafult: false,
     describe: 'turn sandboxing in chrome off, may be needed on some linux distros',
     type: 'boolean'
-  })
-  .argv
-
+  }).argv
 
 if (argv.verbose) console.log(argv)
 
@@ -60,11 +62,11 @@ const output = argv.output.endsWith(ext) ? argv.output : `${argv.output}.${ext}`
 
 const args = argv.disableSandbox ? ['--no-sandbox'] : []
 
-// Do the screenshooting
+  // Do the screenshooting
 ;(async () => {
   const browser = await puppeteer
     .launch({ args, headless })
-    .catch(e =>
+    .catch((e: Error) =>
       errorExit(
         e + '======================================',
         "\nseems like somethig went wrong when launching chromium, if you're on",
@@ -75,7 +77,7 @@ const args = argv.disableSandbox ? ['--no-sandbox'] : []
     )
   const page = await browser
     .newPage()
-    .catch(e =>
+    .catch((e: Error) =>
       errorExit(
         "couln't open new page, here's the error msg,",
         'if u wanna figure out what went wrong:\n',
@@ -85,7 +87,7 @@ const args = argv.disableSandbox ? ['--no-sandbox'] : []
 
   await page
     .goto(url, { waitUntil: 'networkidle2' })
-    .catch(e =>
+    .catch((e: Error) =>
       errorExit(
         "couldn't go to desired page, check the url",
         "and make sure it has the 'http' part, also",
@@ -123,23 +125,23 @@ const args = argv.disableSandbox ? ['--no-sandbox'] : []
 
   await page
     .screenshot({ path: output, fullPage: true })
-    .catch(e => errorExit("couldn't take screenshot, here's puppeteer's error msg:\n", e))
+    .catch((e: Error) => errorExit("couldn't take screenshot, here's puppeteer's error msg:\n", e))
 
   await browser.close()
 })()
 
-function errorExit(...e) {
+function errorExit(...e: any): never {
   console.log(...e)
-  process.exit(1)
+  return process.exit(1)
 }
 
-function getFormatedDate() {
+function getFormatedDate(): string {
   const date = new Date()
-  return `${date.getFullYear()}-${pad(date.getMonth())}-${pad(date.getDate())}\
+  return `${date.getFullYear()}-${pad(String(date.getMonth()))}-${pad(String(date.getDate()))}\
 _${date.getHours()}-${date.getMinutes()}-${date.getSeconds()}`
 }
 
-function pad(str, num = 2) {
+function pad(str: string, num = 2): string {
   let out = String(str)
   while (out.length < num) {
     out = `0${out}`
