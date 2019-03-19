@@ -45,7 +45,7 @@ if (argv.verbose) console.log(argv)
 
 // Parse args
 if (!argv._[0]) {
-  console.log('url as positional argument is required!')
+  console.log('url as q first positional argument is required!')
   process.exit(1)
 }
 
