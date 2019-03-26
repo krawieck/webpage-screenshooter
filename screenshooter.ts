@@ -4,58 +4,6 @@ import { getFormatedDate, pad, errorExit } from './helpers'
 
 export type imgExtension = 'jpg' | 'jpg' | 'png'
 
-const argv = require('yargs')
-  .usage('Usage: $0 <url> [options]')
-  .option('w', {
-    alias: 'width',
-    default: 1920,
-    describe: 'sets width of the screenshot',
-    type: 'number'
-  })
-  .option('h', {
-    alias: 'height',
-    default: 1080,
-    describe:
-      "sets height of browser's viewport. useful for short websites, e.g. https://google.com",
-    type: 'number'
-  })
-  .option('ext', {
-    default: 'png',
-    describe: 'extension of the image',
-    choices: ['jpeg', 'jpg', 'png']
-  })
-  .option('scroll-first', {
-    default: false,
-    describe:
-      'First scroll through the page before taking a screenshot. Useful or even ' +
-      'necessary for some websites where content is generated as user scrolls',
-    type: 'boolean'
-  })
-  .option('output', {
-    default: `screenshot_${getFormatedDate()}`,
-    describe: 'output name',
-    type: 'string'
-  })
-  .option('headful', { default: false, describe: 'turns headless mode off', type: 'boolean' })
-  .option('verbose', {
-    default: false,
-    describe: 'Print various debugging information',
-    type: 'boolean'
-  })
-  .option('disable-sandbox', {
-    deafult: false,
-    describe: 'turn sandboxing in chrome off, may be needed on some linux distros',
-    type: 'boolean'
-  }).argv
-
-if (argv.verbose) console.log(argv)
-
-// Parse args
-if (!argv._[0]) {
-  console.log('url as q first positional argument is required!')
-  process.exit(1)
-}
-
 export class Screenshooter {
   public width: number
   public height: number
