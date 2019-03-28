@@ -48,7 +48,8 @@ const argv = require('yargs')
     default: false,
     describe:
       'after preparing the browser will pause and wait for your signal to take screenshot,' +
-      ' you should use it if you want to mess with the page before taking the screeshot. it ' + 'it also sets the "headful" variable to true',
+      ' you should use it if you want to mess with the page before taking the screeshot. it ' +
+      'it also sets the "headful" variable to true',
     type: 'boolean'
   }).argv
 
