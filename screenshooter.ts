@@ -24,7 +24,7 @@ export class Screenshooter {
       height = 200,
       ext = 'png',
       scrollFirst = false,
-      output = `${os.homedir()}/Pictures/`,
+      output = `${os.homedir()}/Pictures/${getFormatedDate()}`,
       headful = false,
       verbose = false,
       disableSandboxing = false
@@ -42,7 +42,7 @@ export class Screenshooter {
       height: 200,
       ext: 'png',
       scrollFirst: false,
-      output: `${os.homedir()}/Pictures/`,
+      output: `${os.homedir()}/Pictures/${getFormatedDate()}`,
       headful: false,
       verbose: false,
       disableSandboxing: false
