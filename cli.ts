@@ -43,13 +43,20 @@ const argv = require('yargs')
     deafult: false,
     describe: 'turn sandboxing in chrome off, may be needed on some linux distros',
     type: 'boolean'
+  })
+  .option('pause', {
+    default: false,
+    describe:
+      'after preparing the browser will pause and wait for your signal to take screenshot,' +
+      ' you should use it if you want to mess with the page before taking the screeshot. it ' + 'it also sets the "headful" variable to true',
+    type: 'boolean'
   }).argv
 
 if (argv.verbose) console.log(argv)
 
 // Parse args
 if (!argv._[0]) {
-  console.log('url as q first positional argument is required!')
+  console.log('url as first positional argument is required!')
   process.exit(1)
 }
 
@@ -59,7 +66,8 @@ const height: number = argv.h
 const ext: imgExtension = argv.ext
 const scrollFirst: boolean = argv.scrollFirst
 const output: string = argv.output
-const headful: boolean = argv.headful
+const pause: boolean = argv.pause
+const headful: boolean = pause || argv.headful
 const verbose: boolean = argv.verbose
 const disableSandboxing: boolean = argv.disableSandboxing
 
@@ -74,7 +82,22 @@ let sc = new Screenshooter(url, {
   disableSandboxing
 })
 ;(async () => {
+  console.log('preparing browser...')
   await sc.prepare()
-  await sc.fire()
-  await sc.finish()
+  if (pause) {
+    console.log('ready!')
+    console.log("press ENTER when you're ready")
+
+    process.stdin.on('readable', async key => {
+      console.log('taking a screenshot...')
+      await sc.fire()
+      console.log('closing up...')
+      await sc.finish()
+    })
+  } else {
+    console.log('taking a screenshot...')
+    await sc.fire()
+    console.log('closing up...')
+    await sc.finish()
+  }
 })()
