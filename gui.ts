@@ -1,4 +1,4 @@
-// import { Screenshooter } from "./screenshooter";
+// import { Screenshooter, imgExtension } from "./screenshooter";
 
 const { Screenshooter, imgExtension } = require('./screenshooter')
 
@@ -6,13 +6,13 @@ function collectInputs() {
   return {
     url: (document.getElementById('url-input') as HTMLInputElement).value,
     args: {
-      width: (document.getElementById('w-input') as HTMLInputElement).value,
-      height: (document.getElementById('h-input') as HTMLInputElement).value,
+      width: Number((document.getElementById('w-input') as HTMLInputElement).value),
+      height: Number((document.getElementById('h-input') as HTMLInputElement).value),
       ext: (document.getElementById('ext-input') as HTMLInputElement).value,
       scrollFirst: (document.getElementById('scroll-first-input') as HTMLInputElement).checked,
-      output: '', // @TODO
+      output: undefined, // @TODO
       headful: (document.getElementById('headful-input') as HTMLInputElement).checked,
-      verbose: false,
+      verbose: undefined,
       disableSandboxing: (document.getElementById('disable-sandbox-input') as HTMLInputElement)
         .checked
     },
