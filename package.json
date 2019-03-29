@@ -2,10 +2,10 @@
   "name": "webpage-screenshooter",
   "version": "1.0.0",
   "description": "",
-  "main": "gui.ts",
+  "main": "gui.html",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node build/cli.js"
+    "start": "tsc && node cli.js"
   },
   "author": "krawieck",
   "license": "ISC",

@@ -12,7 +12,7 @@ export function pad(str: string, num = 2): string {
   return out
 }
 
-export function errorExit(...e: any): never {
+export function errorExit(...e: any[]): never {
   console.log(...e)
   return process.exit(1)
 }
