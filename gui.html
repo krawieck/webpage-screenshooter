@@ -16,6 +16,10 @@
     <form>
       <p>URL: <input id="url-input" type="text" value="" required /></p>
       <p>
+        Path: (default is $HOME/Photos/screenshot_{date})
+        <input type="file" name="file-input" id="file-input" accept=".jpg, .jpeg, .png" nwsaveas>
+      </p>
+      <p>
         width:
         <input id="w-input" type="text" value="1920" required pattern="\d+" />
       </p>

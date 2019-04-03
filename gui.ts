@@ -1,5 +1,3 @@
-// import { Screenshooter, imgExtension } from "./screenshooter";
-
 const { Screenshooter, imgExtension } = require('./screenshooter')
 
 function collectInputs() {
@@ -10,7 +8,7 @@ function collectInputs() {
       height: Number((document.getElementById('h-input') as HTMLInputElement).value),
       ext: (document.getElementById('ext-input') as HTMLInputElement).value,
       scrollFirst: (document.getElementById('scroll-first-input') as HTMLInputElement).checked,
-      output: undefined, // @TODO
+      output: (document.getElementById('file-input') as HTMLInputElement).value || undefined,
       headful: (document.getElementById('headful-input') as HTMLInputElement).checked,
       verbose: undefined,
       disableSandboxing: (document.getElementById('disable-sandbox-input') as HTMLInputElement)
@@ -19,9 +17,11 @@ function collectInputs() {
     pause: (document.getElementById('pause-input') as HTMLInputElement).checked
   }
 }
-;(document.querySelector('form') as HTMLFormElement).addEventListener('submit', e => {
-  doTheScreenshot(collectInputs())
+;(document.querySelector('form') as HTMLFormElement).addEventListener('submit', async e => {
   e.preventDefault()
+  ;(document.getElementById('submit') as HTMLInputElement).disabled = true
+  await doTheScreenshot(collectInputs())
+  ;(document.getElementById('submit') as HTMLInputElement).disabled = false
 })
 
 async function doTheScreenshot({
