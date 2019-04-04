@@ -21,7 +21,6 @@ function collectInputs() {
   e.preventDefault()
   ;(document.getElementById('submit') as HTMLInputElement).disabled = true
   await doTheScreenshot(collectInputs())
-  ;(document.getElementById('submit') as HTMLInputElement).disabled = false
 })
 
 async function doTheScreenshot({
@@ -33,11 +32,29 @@ async function doTheScreenshot({
   args: Object
   pause: boolean
 }): Promise<void> {
+  let submit = document.getElementById('submit') as HTMLInputElement
+  
   const sc = new Screenshooter(url, args)
-
+  
   await sc.prepare()
-  await sc.fire()
-  await sc.finish()
+  if (pause) {
+    let resumeButton = document.createElement('input')
+    resumeButton.type = 'button'
+    resumeButton.value = 'Resume'
+
+    let pauseWrapper = document.getElementById('pause-wrapper') as HTMLSpanElement
+    pauseWrapper.appendChild(resumeButton)
+    resumeButton.addEventListener('click', async () => {
+      await sc.fire()
+      await sc.finish()
+      submit.disabled = false
+      pauseWrapper.removeChild(resumeButton)
+    })
+  } else {
+    await sc.fire()
+    await sc.finish()
+    submit.disabled = false
+  }
 }
 
 function errorExit(...e: any[]): never {

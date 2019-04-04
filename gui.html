@@ -17,7 +17,7 @@
       <p>URL: <input id="url-input" type="text" value="" required /></p>
       <p>
         Path: (default is $HOME/Photos/screenshot_{date})
-        <input type="file" name="file-input" id="file-input" accept=".jpg, .jpeg, .png" nwsaveas>
+        <input type="file" name="file-input" id="file-input" accept=".jpg, .jpeg, .png" nwsaveas />
       </p>
       <p>
         width:
@@ -41,17 +41,15 @@
         <label for="scroll-first-input">scroll first</label>
         <input type="checkbox" name="scroll-first" id="scroll-first-input" />
       </p>
-      <p>
-        <label for="pause-before-input">pause before taking the screenshot</label>
-        <input type="checkbox" name="pause-before" id="pause-before-input" />
-      </p>
       <p
         title="normaly when this option's disabled there's chromium browser running in the background doing all the work, by checking that you can see what it does"
       >
         <label for="headful-input">headful</label>
         <input type="checkbox" name="headful" id="headful-input" />
       </p>
-      <p>
+      <p
+        title="Waits for user to confirm screenshooting, intended to be used with headful option, so that user can mess with the page a little  bit"
+      >
         <label for="pause-input">pause before screenshoting</label>
         <input type="checkbox" name="pause" id="pause-input" />
       </p>
@@ -60,7 +58,8 @@
         <label for="disable-sandbox-input">disable sandboxing</label>
         <input type="checkbox" name="disable-sandbox" id="disable-sandbox-input" />
       </p>
-      <input type="submit" id="submit" value="Fire!" />
+      <input type="submit" id="submit" value="Fire!" /> <br />
+      <div id="pause-wrapper"></div>
     </form>
     <script src="gui.js"></script>
   </body>
