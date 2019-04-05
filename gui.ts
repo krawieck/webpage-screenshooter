@@ -3,9 +3,11 @@ const fs = require('fs')
 const YAML = require('yaml')
 const path = require('path')
 const cp = require('child_process')
+const format = require('string-template')
+const { pad } = require('./helpers')
+const os = require('os')
 
 function openSettings() {
-  console.log('yup')
   if (process.platform === 'win32') {
     cp.exec('start "" ./defaults.yml')
   } else {
@@ -21,7 +23,8 @@ function collectInputs() {
       height: Number((document.getElementById('h-input') as HTMLInputElement).value),
       ext: (document.getElementById('file-input') as HTMLInputElement).value.slice(-4),
       scrollFirst: (document.getElementById('scroll-first-input') as HTMLInputElement).checked,
-      output: (document.getElementById('file-input') as HTMLInputElement).value || undefined,
+      output:
+        (document.getElementById('file-input-label') as HTMLLabelElement).innerHTML || undefined,
       headful: (document.getElementById('headful-input') as HTMLInputElement).checked,
       verbose: undefined,
       disableSandboxing: (document.getElementById('disable-sandbox-input') as HTMLInputElement)
@@ -33,6 +36,7 @@ function collectInputs() {
 ;(document.querySelector('form') as HTMLFormElement).addEventListener('submit', async e => {
   e.preventDefault()
   ;(document.getElementById('submit') as HTMLInputElement).disabled = true
+  console.log(collectInputs())
   await doTheScreenshot(collectInputs())
 })
 
@@ -83,23 +87,41 @@ function readDefaults(): void {
       pauseBefore: boolean
       noSandbox: boolean
     } = YAML.parse(f)
-    const file = path.join(defaults.path, defaults.nameTemplate)
+    const d = new Date()
+    const template = {
+      Y: d.getFullYear(),
+      m: pad(String(d.getMonth())),
+      d: pad(String(d.getDate())),
+      H: d.getHours(),
+      i: d.getMinutes(),
+      s: d.getSeconds(),
+      home: os.homedir()
+    }
+
+    const file: string = path.join(
+      format(defaults.path, template),
+      format(defaults.nameTemplate, template)
+    )
+    console.log({ defaults, file })
     ;(document.getElementById('url-input') as HTMLInputElement).value = defaults.url
     ;(document.getElementById('w-input') as HTMLInputElement).value = String(defaults.width)
     ;(document.getElementById('h-input') as HTMLInputElement).value = String(defaults.height)
     ;(document.getElementById('scroll-first-input') as HTMLInputElement).checked =
       defaults.scrollFirst
-    ;(document.getElementById('file-input') as HTMLInputElement).value = file
+    ;(document.getElementById('file-input-label') as HTMLLabelElement).innerHTML = file
     ;(document.getElementById('headful-input') as HTMLInputElement).checked = defaults.headful
     ;(document.getElementById('disable-sandbox-input') as HTMLInputElement).checked =
       defaults.noSandbox
     ;(document.getElementById('pause-input') as HTMLInputElement).checked = defaults.pauseBefore
-  } catch (error) {}
+  } catch (e) {
+    console.log('error:', e)
+  }
 }
 
-function saveDefaults() {
-  const data = YAML.stringify()
-}
+;(document.querySelector('#file-input') as HTMLInputElement).addEventListener('change', (e: Event) => {
+  let val = (document.querySelector('#file-input') as HTMLInputElement).value
+  ;(document.querySelector('#file-input-label') as HTMLInputElement).innerHTML = val
+})
 
 function errorExit(...e: any[]): never {
   console.error(e)

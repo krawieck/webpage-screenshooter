@@ -4,7 +4,7 @@
   "description": "",
   "main": "gui.html",
   "window": {
-    "width": 500,
+    "width": 700,
     "height": 500
   },
   "scripts": {
@@ -15,6 +15,7 @@
   "license": "ISC",
   "dependencies": {
     "puppeteer": "^1.11.0",
+    "string-template": "^1.0.0",
     "typescript": "^3.4.1",
     "yaml": "^1.4.0",
     "yargs": "^12.0.5"

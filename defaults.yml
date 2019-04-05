@@ -1,6 +1,19 @@
 url: ""
-path: null
-nameTemplate: null
+# path and nameTemplate support templating
+# that means that you can put variables in the names like date or home location
+# every date/hour thing is padded
+# available variables are:
+# {home} is replaced with your home location
+# {Y} - year
+# {m} - month
+# {d} - day of the month
+# {H} - hour
+# {i} - minute
+# {s} - seconds
+
+# to escape { or } use {{ or }}
+path: "{home}/Pictures"
+nameTemplate: "screenshot_{Y}-{m}-{d}_{H}-{i}-{s}.png" # write extension (jpg or png) at the and. if the extension is invalid program will automatically add .png in the end
 width: 1920
 height: 1080
 scrollFirst: false

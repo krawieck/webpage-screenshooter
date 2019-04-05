@@ -10,14 +10,28 @@
       input {
         font-family: sans-serif;
       }
+      input[type='file'] {
+        width: 0.1px;
+        height: 0.1px;
+        opacity: 0;
+        overflow: hidden;
+        position: absolute;
+        z-index: -1;
+      }
     </style>
   </head>
-  <body>
+  <body style="-webkit-app-region: drag">
     <form>
       <p>URL: <input id="url-input" type="text" value="" required /></p>
       <p>
-        Path: (default is "$HOME/Photos/screenshot_{date}.png")
+        Path:
         <input type="file" name="file-input" id="file-input" accept=".png, .jpg, .jpeg" nwsaveas />
+        <input
+          type="button"
+          value="Select location"
+          onclick="document.getElementById('file-input').click()"
+        />
+        <label for="file-input" id="file-input-label"></label>
       </p>
       <p>
         width:
