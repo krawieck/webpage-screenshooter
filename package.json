@@ -1,6 +1,6 @@
 {
   "name": "webpage-screenshooter",
-  "version": "1.0.0",
+  "version": "0.1.0",
   "description": "",
   "main": "gui.html",
   "window": {
