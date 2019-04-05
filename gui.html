@@ -16,8 +16,8 @@
     <form>
       <p>URL: <input id="url-input" type="text" value="" required /></p>
       <p>
-        Path: (default is $HOME/Photos/screenshot_{date})
-        <input type="file" name="file-input" id="file-input" accept=".jpg, .jpeg, .png" nwsaveas />
+        Path: (default is $HOME/Photos/screenshot_{date}.png)
+        <input type="file" name="file-input" id="file-input" accept=".png, .jpg, .jpeg" nwsaveas />
       </p>
       <p>
         width:
@@ -26,14 +26,6 @@
       <p>
         height:
         <input id="h-input" type="text" value="1080" required pattern="\d+" />
-      </p>
-      <p>
-        extension:
-        <select name="" id="ext-input">
-          <option value="png">PNG</option>
-          <option value="jpg">JPG</option>
-          <option value="jpeg">JPEG</option>
-        </select>
       </p>
       <p
         title="Scrolls through the page first, this ensures that everything has been generated. The drawback is that it literaly has to scroll through the page, so it takes a bit more time"
