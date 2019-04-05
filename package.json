@@ -9,7 +9,8 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "tsc && node cli.js"
+    "start": "tsc && node cli.js",
+    "build": "tsc"
   },
   "author": "krawieck",
   "license": "ISC",
