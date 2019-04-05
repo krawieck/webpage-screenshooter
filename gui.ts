@@ -1,4 +1,17 @@
 const { Screenshooter, imgExtension } = require('./screenshooter')
+const fs = require('fs')
+const YAML = require('yaml')
+const path = require('path')
+const cp = require('child_process')
+
+function openSettings() {
+  console.log('yup')
+  if (process.platform === 'win32') {
+    cp.exec('start "" ./defaults.yml')
+  } else {
+    cp.exec('xdg-open ./defaults.yml')
+  }
+}
 
 function collectInputs() {
   return {
@@ -6,7 +19,7 @@ function collectInputs() {
     args: {
       width: Number((document.getElementById('w-input') as HTMLInputElement).value),
       height: Number((document.getElementById('h-input') as HTMLInputElement).value),
-      ext: (document.getElementById('ext-input') as HTMLInputElement).value,
+      ext: (document.getElementById('file-input') as HTMLInputElement).value.slice(-4),
       scrollFirst: (document.getElementById('scroll-first-input') as HTMLInputElement).checked,
       output: (document.getElementById('file-input') as HTMLInputElement).value || undefined,
       headful: (document.getElementById('headful-input') as HTMLInputElement).checked,
@@ -33,9 +46,8 @@ async function doTheScreenshot({
   pause: boolean
 }): Promise<void> {
   let submit = document.getElementById('submit') as HTMLInputElement
-  
   const sc = new Screenshooter(url, args)
-  
+
   await sc.prepare()
   if (pause) {
     let resumeButton = document.createElement('input')
@@ -57,8 +69,42 @@ async function doTheScreenshot({
   }
 }
 
+function readDefaults(): void {
+  try {
+    let f = fs.readFileSync('./defaults.yml', 'utf8')
+    let defaults: {
+      url: string
+      path: string
+      nameTemplate: string
+      width: number
+      height: number
+      scrollFirst: boolean
+      headful: boolean
+      pauseBefore: boolean
+      noSandbox: boolean
+    } = YAML.parse(f)
+    const file = path.join(defaults.path, defaults.nameTemplate)
+    ;(document.getElementById('url-input') as HTMLInputElement).value = defaults.url
+    ;(document.getElementById('w-input') as HTMLInputElement).value = String(defaults.width)
+    ;(document.getElementById('h-input') as HTMLInputElement).value = String(defaults.height)
+    ;(document.getElementById('scroll-first-input') as HTMLInputElement).checked =
+      defaults.scrollFirst
+    ;(document.getElementById('file-input') as HTMLInputElement).value = file
+    ;(document.getElementById('headful-input') as HTMLInputElement).checked = defaults.headful
+    ;(document.getElementById('disable-sandbox-input') as HTMLInputElement).checked =
+      defaults.noSandbox
+    ;(document.getElementById('pause-input') as HTMLInputElement).checked = defaults.pauseBefore
+  } catch (error) {}
+}
+
+function saveDefaults() {
+  const data = YAML.stringify()
+}
+
 function errorExit(...e: any[]): never {
   console.error(e)
   alert(e)
   return process.exit(1)
 }
+
+readDefaults()
