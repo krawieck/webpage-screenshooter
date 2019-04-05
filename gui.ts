@@ -25,7 +25,7 @@ function collectInputs() {
       scrollFirst: (document.getElementById('scroll-first-input') as HTMLInputElement).checked,
       output:
         (document.getElementById('file-input-label') as HTMLLabelElement).innerHTML || undefined,
-      headful: (document.getElementById('headful-input') as HTMLInputElement).checked,
+      headful: (document.getElementById('pause-input') as HTMLInputElement).checked || (document.getElementById('headful-input') as HTMLInputElement).checked,
       verbose: undefined,
       disableSandboxing: (document.getElementById('disable-sandbox-input') as HTMLInputElement)
         .checked
