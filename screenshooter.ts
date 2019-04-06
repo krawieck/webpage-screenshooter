@@ -1,5 +1,6 @@
 import puppeteer from 'puppeteer'
 import os from 'os'
+import fs from 'fs'
 import { getFormatedDate, pad, errorExit } from './helpers'
 
 export type imgExtension = 'jpg' | 'jpg' | 'png'
@@ -13,6 +14,7 @@ export class Screenshooter {
   public headful: boolean
   public verbose: boolean
   public disableSandboxing: boolean
+  public overwriteIfExists: boolean
 
   public browser?: puppeteer.Browser
   public page?: puppeteer.Page
@@ -27,7 +29,8 @@ export class Screenshooter {
       output = `${os.homedir()}/Pictures/${getFormatedDate()}`,
       headful = false,
       verbose = false,
-      disableSandboxing = false
+      disableSandboxing = false,
+      overwriteIfExists = false
     }: {
       width?: number
       height?: number
@@ -37,6 +40,7 @@ export class Screenshooter {
       headful?: boolean
       verbose?: boolean
       disableSandboxing?: boolean
+      overwriteIfExists?: boolean
     } = {
       width: 1920,
       height: 200,
@@ -44,8 +48,9 @@ export class Screenshooter {
       scrollFirst: false,
       output: `${os.homedir()}/Pictures/${getFormatedDate()}`,
       headful: false,
-      verbose: false,
-      disableSandboxing: false
+      verbose: true,
+      disableSandboxing: false,
+      overwriteIfExists: false
     }
   ) {
     this.width = width
@@ -56,6 +61,7 @@ export class Screenshooter {
     this.headful = headful
     this.verbose = verbose
     this.disableSandboxing = disableSandboxing
+    this.overwriteIfExists = overwriteIfExists
   }
 
   async prepare(): Promise<boolean> {
@@ -97,7 +103,24 @@ export class Screenshooter {
   }
 
   async fire(): Promise<void> {
-    await this.page!.screenshot({ path: this.output, fullPage: true }).catch(Promise.reject)
+    
+    let finalOutput = this.output
+    
+    if (!this.overwriteIfExists) {
+
+      let { groups } = /(?<name>.*)\.(?<ext>\w+)$/.exec(this.output) as RegExpExecArray
+      let ext = groups!.ext
+      let name = groups!.name 
+      let suffix = 0
+      
+      
+      while (fs.existsSync(finalOutput)) {
+        
+        finalOutput = `${name}_${++suffix}.${ext}`
+      }
+    }
+    
+    await this.page!.screenshot({ path: finalOutput, fullPage: true }).catch(Promise.reject)
   }
 
   async finish(): Promise<void> {

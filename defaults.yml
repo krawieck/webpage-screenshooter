@@ -20,3 +20,4 @@ scrollFirst: false
 headful: false
 pauseBefore: false
 noSandbox: false
+overwriteIfExists: false

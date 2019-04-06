@@ -28,7 +28,8 @@ function collectInputs() {
       headful: (document.getElementById('pause-input') as HTMLInputElement).checked || (document.getElementById('headful-input') as HTMLInputElement).checked,
       verbose: undefined,
       disableSandboxing: (document.getElementById('disable-sandbox-input') as HTMLInputElement)
-        .checked
+        .checked,
+      overwriteIfExists: (document.getElementById('overwrite-if-exists-input') as HTMLInputElement).checked
     },
     pause: (document.getElementById('pause-input') as HTMLInputElement).checked
   }
@@ -85,7 +86,8 @@ function readDefaults(): void {
       scrollFirst: boolean
       headful: boolean
       pauseBefore: boolean
-      noSandbox: boolean
+      noSandbox: boolean,
+      overwriteIfExists: boolean
     } = YAML.parse(f)
     const d = new Date()
     const template = {
@@ -113,6 +115,7 @@ function readDefaults(): void {
     ;(document.getElementById('disable-sandbox-input') as HTMLInputElement).checked =
       defaults.noSandbox
     ;(document.getElementById('pause-input') as HTMLInputElement).checked = defaults.pauseBefore
+    ;(document.getElementById('overwrite-if-exists-input') as HTMLInputElement).checked = defaults.overwriteIfExists
   } catch (e) {
     console.log('error:', e)
   }
