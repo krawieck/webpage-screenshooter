@@ -1,4 +1,4 @@
-import { getFormatedDate } from './helpers'
+import { getFormatedDate, errorExit } from './helpers'
 import { Screenshooter, imgExtension } from './screenshooter'
 
 const argv = require('yargs')
@@ -84,21 +84,22 @@ let sc = new Screenshooter(url, {
 })
 ;(async () => {
   console.log('preparing browser...')
-  await sc.prepare()
+  await sc.prepare().catch(errorExit)
   if (pause) {
     console.log('ready!')
     console.log("press ENTER when you're ready")
 
     process.stdin.on('readable', async key => {
       console.log('taking a screenshot...')
-      await sc.fire()
+      await sc.fire().catch(errorExit)
       console.log('closing up...')
-      await sc.finish()
+      await sc.finish().catch(errorExit)
     })
   } else {
     console.log('taking a screenshot...')
-    await sc.fire()
+    await sc.fire().catch(errorExit)
     console.log('closing up...')
-    await sc.finish()
+    await sc.finish().catch(errorExit)
   }
 })()
+

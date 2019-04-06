@@ -97,9 +97,7 @@ export class Screenshooter {
   }
 
   async fire(): Promise<void> {
-    await this.page!.screenshot({ path: this.output, fullPage: true }).catch((e: Error) =>
-      errorExit("couldn't take screenshot, here's puppeteer's error msg:\n", e)
-    )
+    await this.page!.screenshot({ path: this.output, fullPage: true }).catch(Promise.reject)
   }
 
   async finish(): Promise<void> {
