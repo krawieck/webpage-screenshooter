@@ -41,9 +41,11 @@
         height:
         <input id="h-input" type="text" value="1080" required pattern="\d+" />
       </p>
-      <p title="Right now because of how the program works it applies default settings only at launch, and that includes name/path template and that leads to potentially multiple files with the same date" >
+      <p
+        title="Right now because of how the program works it applies default settings only at launch, and that includes name/path template and that leads to potentially multiple files with the same date"
+      >
         <label for="overwrite-if-exists-input">overwrite file if exists</label>
-        <input type="checkbox" name="overwrite-if-exists" id="overwrite-if-exists-input">
+        <input type="checkbox" name="overwrite-if-exists" id="overwrite-if-exists-input" />
       </p>
       <p
         title="Scrolls through the page first, this ensures that everything has been generated. The drawback is that it literaly has to scroll through the page, so it takes a bit more time"
@@ -72,6 +74,9 @@
       <input type="button" value="Edit defaults" onclick="openSettings()" /> <br /><br />
       <div id="pause-wrapper"></div>
     </form>
+    <script>
+      const exports = {}
+    </script>
     <script src="gui.js"></script>
   </body>
 </html>

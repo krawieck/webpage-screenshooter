@@ -1,11 +1,12 @@
-const { Screenshooter, imgExtension } = require('./screenshooter')
-const fs = require('fs')
-const YAML = require('yaml')
-const path = require('path')
-const cp = require('child_process')
-const format = require('string-template')
-const { pad } = require('./helpers')
-const os = require('os')
+import { Screenshooter }  from './screenshooter'
+import fs from 'fs';
+import YAML from 'yaml';
+import path from 'path';
+import cp from 'child_process';
+import format from 'string-template';
+import { pad } from './helpers'
+import os from 'os';
+
 
 function openSettings() {
   if (process.platform === 'win32') {
